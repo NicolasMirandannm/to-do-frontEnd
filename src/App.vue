@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <home-to-do></home-to-do>
   </div>
 </template>
+
+<script>
+import HomeToDo from './views/HomeToDo.vue';
+
+export default {
+  components: {
+    "home-to-do": HomeToDo
+  }
+}
+
+</script>
 
 <style lang="scss">
 #app {
