@@ -1,15 +1,19 @@
 <template>
   <div id="app">
-    <home-to-do></home-to-do>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import HomeToDo from './views/HomeToDo.vue';
+import ListAllTasks from './views/ListAllTasks.vue';
+import ListTasksForList from './views/ListTasksForList.vue';
 
 export default {
   components: {
-    "home-to-do": HomeToDo
+    "home-to-do": HomeToDo,
+    "all-tasks": ListAllTasks,
+    "list-of-tasks": ListTasksForList
   }
 }
 

@@ -5,8 +5,8 @@
         <div class="titulo">
           <h1>TO-DO APP</h1>
         </div>
-        <div class="escolher-lista"></div>
-        <div class="todas-tarefas"></div>
+        <div class="listar-tarefas-por-lista"></div>
+        <div class="listar-todas-tarefas"></div>
         <div class="devs-nomes">
           <h4>Nicolas Leonardo Miranda Lima</h4>
           <h4>Eliel Lima de Aguiar</h4>
