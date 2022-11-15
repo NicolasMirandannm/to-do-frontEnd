@@ -17,12 +17,13 @@
               v-model="listSelected"
               :options="allLists"
             ></b-form-select>
+            <div>{{listSelected}}</div>
             <button>Filtrar</button>
             <button>Esvaziar lista</button>
           </div>
           <div class="busca">
             <p>Buscar</p>
-            <input type="text" placeholder="Nome da tarefa...">
+            <input type="search" placeholder="Nome da tarefa..." @input="filter = $event.target.value"/>
           </div>
         </div>
         <div class="listas-tarefas">
@@ -34,7 +35,7 @@
           </b-list-group-item>
           <b-list-group
             class="list-group"
-            v-for="task in allTasks"
+            v-for="task in taskWithFilter"
             :key="task.id"
           >
             <b-list-group-item class="items">
@@ -80,76 +81,91 @@ export default {
           task: null,
         },
       ],
-      allLists: []
+      allLists: [],
+      filter: null,
     };
   },
   mounted() {
-    try {
-      api.get("task/findAll").then((response) => {
+    api
+      .get("task/findAll")
+      .then((response) => {
         this.allTasks = response.data;
-        console.log(this.tasks);
-        console.log(response.data);
-      });
-    } catch (err) {
-      alert(err.message);
-    };
-    
-    try {
-        api.get("list/findAll").then((response) => {
-            const lists = response.data;
-            this.allLists = lists.map((list) => {
-            return {
-                value: list.name,
-                text: list.name,
-            };
-            });
+      })
+      .catch((err) => alert(err.message));
+
+    api
+      .get("list/findAll")
+      .then((response) => {
+        const lists = response.data;
+        this.allLists = lists.map((list) => {
+          return {
+            value: list.name,
+            text: list.name,
+          };
         });
-    } catch(err) {
-        alert(err.message)
+        this.allLists.unshift({
+            value: null,
+            text: 'Sem filtro'
+        })
+      })
+      .catch((err) => alert(err.message));
+  },
+  computed: {
+    taskWithFilter() {
+        if(this.filter) {
+            const Alltasks = this.allTasks;
+            let exp = new RegExp(this.filter.trim(), 'i');
+            return Alltasks.filter(task => exp.test(task.task));
+        }
+        else {
+            return this.allTasks
+        }
     }
   },
   methods: {
     updateTask(task) {
-        try {
-            api.put('task/update', task).then((response) => {
-                alert(`${response.data.task} alterado com sucesso`);
-            })
-            
-
-        } catch(err) {
-            alert(err.message)
-        }
+      try {
+        api.put("task/update", task).then((response) => {
+          alert(`${response.data.task} alterado com sucesso`);
+        });
+      } catch (err) {
+        alert(err.message);
+      }
     },
     doneTask(task) {
-
-        let taskDone = task;
-        taskDone.doneStatus = true;
-        try {
-            api.put('task/update', taskDone).then((response) => {
-                alert(`Parabens por concluir a tarefa: ${response.data.task}`)
-            })
-        } catch(err) {
-            alert(err.message)
-        }
+      let taskDone = task;
+      taskDone.doneStatus = true;
+      try {
+        api.put("task/update", taskDone).then((response) => {
+          alert(`Parabens por concluir a tarefa: ${response.data.task}`);
+        });
+      } catch (err) {
+        alert(err.message);
+      }
     },
     deleteTask(task) {
-        try {
-            api.delete('task/delete', {data: task}).then((response) => {
-                alert(`Tarefa ${response.data.task} deletada com sucesso`)
-            })
-            window.location.reload();
-        } catch(err) {
-            alert(err.message)
-        }
+      try {
+        api.delete("task/delete", { data: task }).then((response) => {
+          alert(`Tarefa ${response.data.task} deletada com sucesso`);
+        });
+        window.location.reload();
+      } catch (err) {
+        alert(err.message);
+      }
     },
     removerDaLista(task) {
-        api.put('remove-task-from-list', task).then((response) => {
-            alert(`tarefa ${response.data.task} removido com sucesso da lista '${task.list.name}'`)
-        }).catch((err) => {
-            alert('Tarefa não pertence a nenhuma lista')
+      api
+        .put("remove-task-from-list", task)
+        .then((response) => {
+          alert(
+            `tarefa ${response.data.task} removido com sucesso da lista '${task.list.name}'`
+          );
         })
-    }
-  }
+        .catch((err) => {
+          alert("Tarefa não pertence a nenhuma lista");
+        });
+    },
+  },
 };
 </script>
 
