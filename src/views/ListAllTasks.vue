@@ -8,6 +8,9 @@
         <div class="titulo-da-rota">
           <p>TODAS TAREFAS CRIADAS</p>
         </div>
+        <div class="back">
+          <button @click="toRouteHome">Voltar</button>
+        </div>
       </div>
       <div class="container-das-tarefas">
         <div class="barra-de-pesquisa">
@@ -18,13 +21,9 @@
               :options="allLists"
             ></b-form-select>
             <div>{{listSelected}}</div>
-            <button>Filtrar</button>
-            <button>Esvaziar lista</button>
+            <button @click="clearAllTasksFromList">Remover todas tarefas da lista</button>
           </div>
-          <div class="busca">
-            <p>Buscar</p>
-            <input type="search" placeholder="Nome da tarefa..." @input="filter = $event.target.value"/>
-          </div>
+          
         </div>
         <div class="listas-tarefas">
           <b-list-group-item class="lista-titulo">
@@ -35,7 +34,7 @@
           </b-list-group-item>
           <b-list-group
             class="list-group"
-            v-for="task in taskWithFilter"
+            v-for="task in tasksAux"
             :key="task.id"
           >
             <b-list-group-item class="items">
@@ -71,6 +70,7 @@ export default {
   data() {
     return {
       listSelected: null,
+      tasksAux: [],
       allTasks: [
         {
           id: null,
@@ -82,7 +82,7 @@ export default {
         },
       ],
       allLists: [],
-      filter: null,
+      TaskFilter: null,
     };
   },
   mounted() {
@@ -90,6 +90,7 @@ export default {
       .get("task/findAll")
       .then((response) => {
         this.allTasks = response.data;
+        this.tasksAux = this.allTasks;
       })
       .catch((err) => alert(err.message));
 
@@ -110,18 +111,24 @@ export default {
       })
       .catch((err) => alert(err.message));
   },
-  computed: {
-    taskWithFilter() {
-        if(this.filter) {
-            const Alltasks = this.allTasks;
-            let exp = new RegExp(this.filter.trim(), 'i');
-            return Alltasks.filter(task => exp.test(task.task));
-        }
-        else {
-            return this.allTasks
-        }
-    }
-  },
+
+  watch: {
+    listSelected() {
+      if(this.listSelected) {
+          const tasks = this.allTasks;
+          this.tasksAux = tasks.filter((task) => {
+              if(task.list) {
+                  return task.list.name === this.listSelected;
+              }
+          })
+          console.log(this.tasksAux)
+      }
+      else {
+          this.tasksAux = this.allTasks;
+      }
+    },
+
+  },  
   methods: {
     updateTask(task) {
       try {
@@ -165,6 +172,24 @@ export default {
           alert("Tarefa não pertence a nenhuma lista");
         });
     },
+    toRouteHome() {
+      this.$router.push({
+        path: '/',
+      })
+    },
+    clearAllTasksFromList() {
+      if(this.listSelected) {
+        api.put("remove-all-task-from-list", {list: this.listSelected}).then((response) => {
+          alert(`lista ${response.data.name} esvaziada com sucesso`)
+          window.location.reload()
+        }).catch((err) => {
+          alert(err.data.message)
+        })
+      }
+      else {
+        alert('selecione uma lista para poder remover suas tarefas!')
+      }
+    }
   },
 };
 </script>

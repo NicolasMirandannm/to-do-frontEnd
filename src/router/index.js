@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeToDo from '../views/HomeToDo.vue'
 import ListAllTasks from '../views/ListAllTasks.vue'
-import ListTasksForList from '../views/ListTasksForList.vue'
 
 Vue.use(VueRouter)
 
@@ -17,11 +16,6 @@ const routes = [
     name: 'allTasks',
     component: ListAllTasks
   },
-  {
-    path: '/lista',
-    name: 'ListofTasks',
-    component: ListTasksForList
-  }
 ]
 
 const router = new VueRouter({

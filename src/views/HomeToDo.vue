@@ -5,18 +5,9 @@
         <div class="titulo">
           <h1>TO-DO APP</h1>
         </div>
-        <div class="listar-tarefas-por-lista">
-          <p class="label-list-tasks">Selecione a lista que deseja abrir:</p>
-          <b-form-select
-            class="dropdown"
-            v-model="listSelected"
-            :options="allLists"
-          ></b-form-select>
-          <button>Listar</button>
-        </div>
         <div class="listar-todas-tarefas">
           <p class="label-list-tasks">Listar todas tarefas cadastradas:</p>
-          <button>Listar</button>
+          <button @click="toRouterList">Listar</button>
         </div>
         <div class="devs-nomes">
           <h4 class="devName">devs:</h4>
@@ -102,12 +93,14 @@ export default {
   mounted() {
     api.get("task/findAll").then((response) => {
       const tasks = response.data;
-      this.allTasks = tasks.map((task) => {
-        return {
-          value: task.task,
-          text: task.task,
-        };
-      });
+      tasks.filter((task) => {
+        if(task.list == null) {
+          this.allTasks.push({
+            value: task.task,
+            text: task.task
+          })
+        }
+      })
     }),
       api.get("list/findAll").then((response) => {
         const lists = response.data;
@@ -118,8 +111,14 @@ export default {
           };
         });
       });
+      
   },
   methods: {
+    toRouterList() {
+      this.$router.push({
+        path: '/listagem-de-tarefas',
+      })
+    },
     createTask() {
       const taskReq = this.task;
       if (taskReq.task == null) {

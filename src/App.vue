@@ -6,14 +6,10 @@
 
 <script>
 import HomeToDo from './views/HomeToDo.vue';
-import ListAllTasks from './views/ListAllTasks.vue';
-import ListTasksForList from './views/ListTasksForList.vue';
 
 export default {
   components: {
     "home-to-do": HomeToDo,
-    "all-tasks": ListAllTasks,
-    "list-of-tasks": ListTasksForList
   }
 }
 
