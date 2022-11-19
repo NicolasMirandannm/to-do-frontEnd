@@ -21,6 +21,7 @@
               :options="allLists"
             ></b-form-select>
             <div>{{listSelected}}</div>
+            <button @click="deletarLista">Deletar lista</button>
             <button @click="clearAllTasksFromList">Remover todas tarefas da lista</button>
           </div>
           
@@ -44,7 +45,7 @@
               </div>
               <div class="task-status">
                 <p>{{ task.doneStatus }}</p>
-                <button @click="doneTask(task)">Concluir task</button>
+                <button @click="doneTask(task)" :disabled="task.doneStatus">Concluir task</button>
               </div>
               <div class="lista-name">
                 <p v-if="task.list != null">{{ task.list.name }}</p>
@@ -130,6 +131,21 @@ export default {
 
   },  
   methods: {
+    deletarLista() {
+      if(this.listSelected) {
+        api.delete("list/delete", {data: {name: this.listSelected}})
+        .then((response) => {
+          alert(`lista ${this.listSelected} deletada com sucesso!`);
+          window.location.reload()
+        })
+        .catch((err) => {
+          alert(err.data.message)
+        })
+      }
+      else {
+        alert('Selecione uma lista!')
+      }
+    },
     updateTask(task) {
       try {
         api.put("task/update", task).then((response) => {
