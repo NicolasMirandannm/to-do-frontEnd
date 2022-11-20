@@ -21,7 +21,7 @@
               :options="allLists"
             ></b-form-select>
             <div>{{listSelected}}</div>
-            <button class="button-31" @click="deletarLista">Deletar lista</button>
+            <button class="button-31 deletar" @click="deletarLista">Deletar lista</button>
           </div>
         <button class="button-31" @click="clearAllTasksFromList">Remover todas tarefas da lista</button>
           
@@ -38,22 +38,40 @@
             v-for="task in tasksAux"
             :key="task.id"
           >
-            <b-list-group-item class="items">
+            <b-list-group-item class="items" v-if="task.doneStatus == false">
               <div class="input-task">
                 <input class="input-task-name" type="text" v-model="task.task" />
                 <button class="button-31" @click="updateTask(task)">Editar</button>
               </div>
               <div class="task-status">
-                <p>{{ task.doneStatus }}</p>
-                <button @click="doneTask(task)" :disabled="task.doneStatus">Concluir task</button>
+                <p class="status">Incompleto</p>
+                <button class="button-31" @click="doneTask(task)" :disabled="task.doneStatus">Concluir</button>
               </div>
               <div class="lista-name">
                 <p v-if="task.list != null">{{ task.list.name }}</p>
                 <p v-else>Sem lista</p>
               </div>
               <div class="acoes">
-                <button @click="deleteTask(task)">deletar</button>
-                <button @click="removerDaLista(task)">remover da lista</button>
+                <button class="button-deletar" @click="deleteTask(task)">deletar</button>
+                <button class="button-31" @click="removerDaLista(task)">remover da lista</button>
+              </div>
+            </b-list-group-item>
+
+            <b-list-group-item class="items1" v-else>
+              <div class="input-task">
+                <input class="input-task-name" type="text" v-model="task.task" />
+                <button class="button-31" @click="updateTask(task)">Editar</button>
+              </div>
+              <div class="task-status">
+                <p class="status2">Concluído</p>
+              </div>
+              <div class="lista-name">
+                <p v-if="task.list != null">{{ task.list.name }}</p>
+                <p v-else>Sem lista</p>
+              </div>
+              <div class="acoes">
+                <button class="button-deletar" @click="deleteTask(task)">deletar</button>
+                <button class="button-31" @click="removerDaLista(task)">remover da lista</button>
               </div>
             </b-list-group-item>
           </b-list-group>
@@ -183,6 +201,7 @@ export default {
           alert(
             `tarefa ${response.data.task} removido com sucesso da lista '${task.list.name}'`
           );
+          window.location.reload()
         })
         .catch((err) => {
           alert("Tarefa não pertence a nenhuma lista");
@@ -238,7 +257,7 @@ export default {
 
 .barra-lateral {
   width: 30%;
-  background-color: #adb5bd;
+  background-color: #534b52;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -247,7 +266,7 @@ export default {
 .titulo {
   height: 30%;
   width: 80%;
-  background-color: #495057;
+  background-color: #2d232e;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -261,7 +280,7 @@ export default {
 .titulo-da-rota {
   height: 30%;
   width: 80%;
-  background-color: #ced4da;
+  background-color: #2d232e;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -269,7 +288,7 @@ export default {
   align-items: center;
   margin-top: 10%;
   margin-bottom: 10%;
-  color: #495057;
+  color: #f1f1f1;
   font-weight: bold;
   font-size: 20px;
 }
@@ -279,7 +298,7 @@ export default {
 }
 
 .container-das-tarefas {
-  background-color: #f8f9fa;
+  background-color: #e0ddcf;
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -326,7 +345,7 @@ export default {
 }
 
 .listas-tarefas {
-  background-color: #ced4da;
+  background-color: #cac7bf;
   width: 90%;
   margin-top: 20px;
   height: 75%;
@@ -348,7 +367,8 @@ export default {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   font-weight: 600;
-  color: #495057;
+  color: #383737;
+  background-color: hsl(312, 2%, 59%);;
 }
 
 .list-group {
@@ -362,6 +382,17 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.items1 {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0.8;
+  background-color: #cce9de;
 }
 
 .input-task {
@@ -384,25 +415,72 @@ export default {
   border-radius: 3px;
   border: 0;
   text-align: center;
-  background-color: #c4ccd4;
+  background-color: #e3e6e9;
   font-size: 15px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 
 .task-status {
-  background-color: #212529;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 22%;
+}
+.task-status .button-31{
+  width: 80%;
+  height: 15px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #88c425;
+}
+
+.status {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.status2 {
+  font-size: 15px;
+  font-weight: bold;
+  color: #88c425;
+  opacity: 0.5;
 }
 
 .lista-name {
-  background-color: #212529;
   width: 22%;
+  font-weight: bolder;
 }
 
 .acoes {
-  background-color: #212529;
   width: 22%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.acoes .button-31 {
+  font-size: 10px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-deletar {
+  border-radius: 3px;
+  width: 100%;
+  background-color: #9b0800;
+  color: #f1f0ea;
+  font-weight: 200px;
+  border: 0;
+  font-size: 15px;
+  margin-bottom: 5px;
 }
 
 /* CSS BUTTON */
