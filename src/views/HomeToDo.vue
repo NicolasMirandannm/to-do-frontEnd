@@ -12,7 +12,6 @@
         <div class="devs-nomes">
           <h4 class="devName">devs:</h4>
           <p class="devName">Nicolas Leonardo Miranda Lima</p>
-          <p class="devName">Eliel Lima de Aguiar</p>
         </div>
       </div>
 
