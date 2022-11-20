@@ -7,7 +7,7 @@
         </div>
         <div class="listar-todas-tarefas">
           <p class="label-list-tasks">Listar todas tarefas cadastradas:</p>
-          <button @click="toRouterList">Listar</button>
+          <button class="button-31" @click="toRouterList">Listar</button>
         </div>
         <div class="devs-nomes">
           <h4 class="devName">devs:</h4>
@@ -15,53 +15,67 @@
           <p class="devName">Eliel Lima de Aguiar</p>
         </div>
       </div>
+
+
+
       <div class="espaco-formulario">
         <div class="add-tarefa">
-          <h3 class="titulo-forms">Adicionar uma nova tarefa</h3>
+          <h3 class="titulo-forms-add">Adicionar uma nova tarefa</h3>
           <div class="form-submit">
-            <p>tarefa:</p>
+            <p class="subtitle-add">Tarefa</p>
             <input
               type="text"
+              class="input-add"
               v-model="task.task"
               placeholder="Digite sua tarefa..."
             />
-            <button class="add-button" @click="createTask">
+            <button class="button-31" @click="createTask">
               Adicionar Tarefa
             </button>
           </div>
         </div>
+
+
+
         <div class="add-lista">
-          <h3 class="titulo-forms">Adicionar uma nova lista</h3>
+          <h3 class="titulo-forms-add">Adicionar uma nova lista</h3>
           <div class="form-submit">
-            <p>Lista:</p>
+            <p class="subtitle-add">Lista</p>
             <input
               type="text"
+              class="input-add"
               required
               v-model="list.name"
               placeholder="Digite o nome da sua lista..."
             />
-            <button class="add-button" @click="createList">
+            <button class="button-31" @click="createList">
               Adicionar Lista
             </button>
           </div>
         </div>
+
+
         <div class="ligar-tarefa-lista">
           <h3 class="titulo-forms">Vincule uma tarefa com uma lista</h3>
           <div class="link-dropdown">
-            <p>Selecione uma tarefa</p>
-            <b-form-select
-              class="dropdown"
-              v-model="TaskSelected"
-              :options="allTasks"
-            ></b-form-select>
-            <p>Selecione uma lista</p>
-            <b-form-select
-              class="dropdown"
-              v-model="listForLink"
-              :options="allLists"
-            ></b-form-select>
+            <div class="align-dropdown">
+              <p class="subtitle-add">Selecione uma tarefa</p>
+              <b-form-select
+                class="input-add"
+                v-model="TaskSelected"
+                :options="allTasks"
+              ></b-form-select>
+            </div>
+            <div class="align-dropdown">
+              <p class="subtitle-add">Selecione uma lista</p>
+              <b-form-select
+                class="input-add"
+                v-model="listForLink"
+                :options="allLists"
+              ></b-form-select>
+            </div>
           </div>
-          <button @click="linkTaskWithList">Vincular tarefa</button>
+          <button class="button-31" @click="linkTaskWithList">Vincular tarefa</button>
         </div>
       </div>
     </div>
@@ -179,6 +193,7 @@ export default {
 </script>
 
 <style scoped>
+
 * {
   margin: 0;
   padding: 0;
@@ -213,6 +228,7 @@ export default {
   flex-direction: column;
   position: relative;
   align-items: center;
+  justify-content: space-around;
   border-top-right-radius: 0%;
   border-bottom-right-radius: 0%;
 }
@@ -285,11 +301,37 @@ export default {
   border-bottom-left-radius: 0%;
 }
 
+.titulo-forms-add {
+  margin-top: -15px;
+}
+
+.subtitle-add {
+  font-weight: bold;
+  background-color: hsl(312, 2%, 59%);
+  color: #212529;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.input-add {
+  width: 100%;
+  height: 35px;
+  border: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
+}
 .add-tarefa {
   width: 80%;
   height: 25%;
   border-radius: 5px;
   background-color: #cac7bf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-lista {
@@ -297,12 +339,93 @@ export default {
   height: 25%;
   border-radius: 5px;
   background-color: #cac7bf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .ligar-tarefa-lista {
   width: 80%;
-  height: 25%;
+  height: 30%;
   border-radius: 5px;
   background-color: #cac7bf;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
+
+
+.form-submit {
+  width: 85%;
+}
+
+.form-submit .button-31 {
+  margin-top: 10px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.link-dropdown .subtitle-add {
+  font-size: 15px;
+}
+.align-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.ligar-tarefa-lista .titulo-forms{
+  font-size: 25px;
+}
+
+.ligar-tarefa-lista .button-31 {
+  width: 85%;
+}
+
+/* CSS BUTTON */
+.button-31 {
+  background-color: #222;
+  border-radius: 4px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  max-width: none;
+  min-height: 30px;
+  min-width: 10px;
+  outline: none;
+  overflow: hidden;
+  padding: 9px 20px 8px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+}
+
+.button-31:hover,
+.button-31:focus {
+  opacity: .75;
+}
+
 </style>

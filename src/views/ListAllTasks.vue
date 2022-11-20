@@ -9,11 +9,11 @@
           <p>TODAS TAREFAS CRIADAS</p>
         </div>
         <div class="back">
-          <button @click="toRouteHome">Voltar</button>
+          <button class="button-31" @click="toRouteHome">Voltar</button>
         </div>
       </div>
       <div class="container-das-tarefas">
-        <div class="barra-de-pesquisa">
+        <div class="barra-de-filtro">
           <div class="filtro-lista">
             <b-form-select
               class="dropdown"
@@ -21,9 +21,9 @@
               :options="allLists"
             ></b-form-select>
             <div>{{listSelected}}</div>
-            <button @click="deletarLista">Deletar lista</button>
-            <button @click="clearAllTasksFromList">Remover todas tarefas da lista</button>
+            <button class="button-31" @click="deletarLista">Deletar lista</button>
           </div>
+        <button class="button-31" @click="clearAllTasksFromList">Remover todas tarefas da lista</button>
           
         </div>
         <div class="listas-tarefas">
@@ -40,8 +40,8 @@
           >
             <b-list-group-item class="items">
               <div class="input-task">
-                <input type="text" v-model="task.task" />
-                <button @click="updateTask(task)">Editar</button>
+                <input class="input-task-name" type="text" v-model="task.task" />
+                <button class="button-31" @click="updateTask(task)">Editar</button>
               </div>
               <div class="task-status">
                 <p>{{ task.doneStatus }}</p>
@@ -274,6 +274,10 @@ export default {
   font-size: 20px;
 }
 
+.back {
+  width: 80%;
+}
+
 .container-das-tarefas {
   background-color: #f8f9fa;
   width: 70%;
@@ -282,17 +286,50 @@ export default {
   align-items: center;
 }
 
-.barra-de-pesquisa {
+.barra-de-filtro {
+  margin-top: 15px;
   height: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.barra-de-filtro .button-31 {
+  width: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filtro-lista {
+  width: 90%;
+  height: 80%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-evenly;
+}
+
+.dropdown {
+  width: 100%;
+  border: 0;
+  border-radius: 2px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.filtro-lista .button-31 {
+  background-color: #9b0800;
+  width: 40%;
+  margin-right: 5px;
 }
 
 .listas-tarefas {
   background-color: #ced4da;
   width: 90%;
-  height: 80%;
+  margin-top: 20px;
+  height: 75%;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -323,7 +360,83 @@ export default {
   height: 80px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
+
+.input-task {
+  width: 22%;
+}
+
+.input-task .button-31 {
+  height: 15px;
+  display: flex;
+  border-radius: 3px;
+  align-items: center;
+  justify-content: center;
+  background-color: #1b676b;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.input-task-name {
+  width: 100%;
+  height: 25px;
+  border-radius: 3px;
+  border: 0;
+  text-align: center;
+  background-color: #c4ccd4;
+  font-size: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.task-status {
+  background-color: #212529;
+  width: 22%;
+}
+
+.lista-name {
+  background-color: #212529;
+  width: 22%;
+}
+
+.acoes {
+  background-color: #212529;
+  width: 22%;
+}
+
+/* CSS BUTTON */
+.button-31 {
+  background-color: #222;
+  border-radius: 4px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0;
+  max-width: none;
+  min-height: 30px;
+  min-width: 10px;
+  outline: none;
+  overflow: hidden;
+  padding: 9px 20px 8px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+}
+
+.button-31:hover,
+.button-31:focus {
+  opacity: .75;
+}
+
 </style>
