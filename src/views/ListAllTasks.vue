@@ -111,7 +111,7 @@ export default {
         this.allTasks = response.data;
         this.tasksAux = this.allTasks;
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => this.$swal(err.message));
 
     api
       .get("list/findAll")
@@ -128,7 +128,7 @@ export default {
             text: 'Sem filtro'
         })
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => this.$swal(err.message));
   },
 
   watch: {
@@ -153,24 +153,24 @@ export default {
       if(this.listSelected) {
         api.delete("list/delete", {data: {name: this.listSelected}})
         .then((response) => {
-          alert(`lista ${this.listSelected} deletada com sucesso!`);
+          this.$swal(`lista ${this.listSelected} deletada com sucesso!`);
           window.location.reload()
         })
         .catch((err) => {
-          alert(err.data.message)
+          this.$swal(err.data.message)
         })
       }
       else {
-        alert('Selecione uma lista!')
+        this.$swal('Selecione uma lista!')
       }
     },
     updateTask(task) {
       try {
         api.put("task/update", task).then((response) => {
-          alert(`${response.data.task} alterado com sucesso`);
+          this.$swal(`${response.data.task} alterado com sucesso`);
         });
       } catch (err) {
-        alert(err.message);
+        this.$swal(err.message);
       }
     },
     doneTask(task) {
@@ -178,33 +178,33 @@ export default {
       taskDone.doneStatus = true;
       try {
         api.put("task/update", taskDone).then((response) => {
-          alert(`Parabens por concluir a tarefa: ${response.data.task}`);
+          this.$swal(`Parabens por concluir a tarefa: ${response.data.task}`);
         });
       } catch (err) {
-        alert(err.message);
+        this.$swal(err.message);
       }
     },
     deleteTask(task) {
       try {
         api.delete("task/delete", { data: task }).then((response) => {
-          alert(`Tarefa ${response.data.task} deletada com sucesso`);
+          this.$swal(`Tarefa ${response.data.task} deletada com sucesso`);
         });
         window.location.reload();
       } catch (err) {
-        alert(err.message);
+        this.$swal(err.message);
       }
     },
     removerDaLista(task) {
       api
         .put("remove-task-from-list", task)
         .then((response) => {
-          alert(
+          this.$swal(
             `tarefa ${response.data.task} removido com sucesso da lista '${task.list.name}'`
           );
           window.location.reload()
         })
         .catch((err) => {
-          alert("Tarefa não pertence a nenhuma lista");
+          this.$swal("Tarefa não pertence a nenhuma lista");
         });
     },
     toRouteHome() {
@@ -215,14 +215,14 @@ export default {
     clearAllTasksFromList() {
       if(this.listSelected) {
         api.put("remove-all-task-from-list", {list: this.listSelected}).then((response) => {
-          alert(`lista ${response.data.name} esvaziada com sucesso`)
+          this.$swal(`lista ${response.data.name} esvaziada com sucesso`)
           window.location.reload()
         }).catch((err) => {
-          alert(err.data.message)
+          this.$swal(err.data.message)
         })
       }
       else {
-        alert('selecione uma lista para poder remover suas tarefas!')
+        this.$swal('selecione uma lista para poder remover suas tarefas!')
       }
     }
   },

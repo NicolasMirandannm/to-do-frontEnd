@@ -136,30 +136,30 @@ export default {
     createTask() {
       const taskReq = this.task;
       if (taskReq.task == null) {
-        alert("Digite sua tarefa!!");
+        this.$swal("Digite sua tarefa!!");
       } else {
         try {
           api.post("task/create", taskReq).then((response) => {
-            alert(`tarefa '${response.data.task}' criada com sucesso!`);
+            this.$swal(`tarefa '${response.data.task}' criada com sucesso!`);
           });
           window.location.reload();
         } catch (err) {
-          alert(err.message);
+          this.$swal(err.message);
         }
       }
     },
     createList() {
       const listReq = this.list;
       if (listReq.name == null) {
-        alert("Digite o nome da lista!!");
+        this.$swal("Digite o nome da lista!!");
       } else {
         try {
           api.post("list/create", listReq).then((response) => {
-            alert(`lista '${response.data.name}' criada com sucesso!`);
+            this.$swal(`lista '${response.data.name}' criada com sucesso!`);
             window.location.reload();
           });
         } catch (err) {
-          alert(err.message);
+          this.$swal(err.message);
         }
       }
     },
@@ -173,18 +173,18 @@ export default {
         },
       };
       if (linkRequest.task.task == null || linkRequest.list.name == null) {
-        alert("ambos os campos são necessarios!!");
+        this.$swal("ambos os campos são necessarios!!");
       } else {
         try {
           api.put("add-task-in-list", linkRequest).then((response) => {
             console.log(response.data)
-            alert(
+            this.$swal(
               `${this.TaskSelected} adicionado com sucesso em ${this.listForLink}`
             );
             window.location.reload();
           });
         } catch (err) {
-          alert(err.message);
+          this.$swal(err.message);
         }
       }
     },
@@ -212,7 +212,7 @@ export default {
 .container {
   height: 80%;
   width: 80%;
-  background-color: #e0ddcf;
+  background-color: #31302f;
   border-radius: 5px;
   box-shadow: 1px 1px 2px 3px #212529;
   display: flex;
