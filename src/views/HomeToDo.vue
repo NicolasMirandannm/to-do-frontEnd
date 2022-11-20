@@ -377,7 +377,7 @@ export default {
 }
 
 .link-dropdown .subtitle-add {
-  font-size: 15px;
+  font-size: 13px;
 }
 .align-dropdown {
   display: flex;
