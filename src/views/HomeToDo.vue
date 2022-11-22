@@ -177,7 +177,7 @@ export default {
         try {
           api.put("add-task-in-list", linkRequest).then((response) => {
             console.log(response.data)
-            this.$swal(
+            alert(
               `${this.TaskSelected} adicionado com sucesso em ${this.listForLink}`
             );
             window.location.reload();
